@@ -54,14 +54,15 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
 
   async update(id: number, updateProductDto: UpdateProductDto) {
     // si updateProductDto es igual a {} entonces arroja un error
+    const { id: __, ...data } = updateProductDto;
     if (Object.keys(updateProductDto).length === 0) {
       throw new NotFoundException(`There is no data to update`);
     }
-    await this.findOne(id);
+    await this.findOne(__);
     //se hace doble lectura a la base de datos para verificar si el producto existe y para actualizarlo
     return this.product.update({
       where: { id },
-      data: updateProductDto,
+      data: data,
     });
     //return updateProductDto;
   }
